@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  telegram-music-bot:
+    build: .
+    container_name: telegram-music-bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      # 持久化数据
+      - ./downloads:/app/downloads
+      - ./logs:/app/logs
+      - ./music_bot.db:/app/music_bot.db
+    environment:
+      - PYTHONUNBUFFERED=1
+    networks:
+      - bot-network
+
+networks:
+  bot-network:
+    driver: bridge
